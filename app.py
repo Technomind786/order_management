@@ -48,16 +48,35 @@ translations = {
 
 }
 
+# -------- TEXT TRANSLITERATION FUNCTION --------
 def transliterate_text(text):
+
+    from deep_translator import GoogleTranslator
+
+    if not text:
+        return text
+
     lang = session.get("lang", "en")
 
-    if lang == "hi" and text:
+    if lang == "hi":
         try:
-            return transliterate(text, ITRANS, DEVANAGARI)
+            return GoogleTranslator(source='auto', target='hi').translate(text)
         except:
             return text
 
     return text
+
+@app.context_processor
+def inject_translations():
+
+    lang = session.get("lang", "en")
+
+    return dict(
+        translations=translations,
+        lang=lang,
+        transliterate_text=transliterate_text
+    )
+
 
 
 
