@@ -9,47 +9,6 @@
 📊 Download Excel Report
 </a>
 
-<!-- STATS CARDS -->
-<div class="row mb-4">
-
-<div class="col-md-3">
-<a href="/production" style="text-decoration:none;">
-<div class="card text-center p-3 bg-primary text-white">
-<h4>{{ total_orders }}</h4>
-{{ translations["total_orders"][lang] }}
-</div>
-</a>
-</div>
-
-<div class="col-md-3">
-<a href="/production?filter=pending" style="text-decoration:none;">
-<div class="card text-center p-3 bg-warning text-dark">
-<h4>{{ pending_orders }}</h4>
-{{ translations["pending_orders"][lang] }}
-</div>
-</a>
-</div>
-
-<div class="col-md-3">
-<a href="/production?filter=completed" style="text-decoration:none;">
-<div class="card text-center p-3 bg-success text-white">
-<h4>{{ completed_orders }}</h4>
-{{ translations["completed_orders"][lang] }}
-</div>
-</a>
-</div>
-
-<div class="col-md-3">
-<a href="/production?filter=urgent" style="text-decoration:none;">
-<div class="card text-center p-3 bg-danger text-white">
-<h4>{{ urgent_orders }}</h4>
-{{ translations["urgent_orders"][lang] }}
-</div>
-</a>
-</div>
-
-</div>
-
 
 <!-- SEARCH BOX -->
 <form method="GET" class="mb-3">
