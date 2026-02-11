@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Create Order</h2>
+
+<form method="POST" class="card p-4">
+
+<div class="row">
+
+<div class="col-md-6">
+<label>Customer Name</label>
+<input class="form-control" type="text" name="customer_name" required>
+</div>
+
+<div class="col-md-6">
+<label>Place of Supply</label>
+<input class="form-control" type="text" name="place_of_supply" required>
+</div>
+
+</div>
+
+<br>
+
+<label>Dispatch Date</label>
+<input class="form-control" type="date" name="dispatch_date" required>
+
+<hr>
+
+<h5>Products</h5>
+
+<div id="product_container">
+
+<!-- FIRST PRODUCT ROW -->
+<div class="product_row mb-3 border p-3 rounded">
+
+<label>Product Name *</label>
+<input class="form-control" name="product_name[]" required>
+
+<br>
+
+<label>Product Code (Optional)</label>
+<input class="form-control" name="product_code[]">
+
+<br>
+
+<label>Quantity *</label>
+<input class="form-control" type="number" name="quantity[]" required>
+
+</div>
+
+</div>
+
+<button type="button" onclick="addProduct()" class="btn btn-secondary mb-3">
++ Add Another Product
+</button>
+
+<br>
+
+<button class="btn btn-success">Save Order</button>
+
+</form>
+
+<script>
+
+function addProduct(){
+
+    let container = document.getElementById("product_container");
+
+    let html = `
+    <div class="product_row mb-3 border p-3 rounded">
+
+        <label>Product Name *</label>
+        <input class="form-control" name="product_name[]" required>
+
+        <br>
+
+        <label>Product Code (Optional)</label>
+        <input class="form-control" name="product_code[]">
+
+        <br>
+
+        <label>Quantity *</label>
+        <input class="form-control" type="number" name="quantity[]" required>
+
+    </div>
+    `;
+
+    container.insertAdjacentHTML("beforeend", html);
+}
+
+</script>
+
+{% endblock %}

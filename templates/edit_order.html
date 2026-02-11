@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Order {{ order.order_number }}</h2>
+
+<form method="POST" class="card p-4">
+
+<label>Customer Name</label>
+<input class="form-control" name="customer_name" value="{{ order.customer_name }}">
+
+<br>
+
+<label>Place of Supply</label>
+<input class="form-control" name="place_of_supply" value="{{ order.place_of_supply }}">
+
+<br>
+
+<label>Dispatch Date</label>
+<input class="form-control" type="date"
+name="dispatch_date"
+value="{{ order.dispatch_date }}">
+
+<br>
+
+<label>Delivery Time</label>
+<input class="form-control" name="delivery_time" value="{{ order.delivery_time }}">
+
+<hr>
+
+<h5>Products</h5>
+
+<div id="product_container">
+
+{% for item in items %}
+
+<div class="product_row mb-3 border p-3 rounded">
+
+<label>Product Name</label>
+<input class="form-control" name="product_name[]" value="{{ item.product_name }}">
+
+<br>
+
+<label>Product Code</label>
+<input class="form-control" name="product_code[]" value="{{ item.product_code }}">
+
+<br>
+
+<label>Quantity</label>
+<input class="form-control" type="number" name="quantity[]" value="{{ item.quantity }}">
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<button type="button" onclick="addProduct()" class="btn btn-secondary mb-3">
++ Add Another Product
+</button>
+
+<br>
+
+<button class="btn btn-success">Update Order</button>
+
+</form>
+
+<script>
+
+function addProduct(){
+
+    let container = document.getElementById("product_container");
+
+    let html = `
+    <div class="product_row mb-3 border p-3 rounded">
+
+        <label>Product Name</label>
+        <input class="form-control" name="product_name[]">
+
+        <br>
+
+        <label>Product Code</label>
+        <input class="form-control" name="product_code[]">
+
+        <br>
+
+        <label>Quantity</label>
+        <input class="form-control" type="number" name="quantity[]">
+
+    </div>
+    `;
+
+    container.insertAdjacentHTML("beforeend", html);
+}
+
+</script>
+
+{% endblock %}

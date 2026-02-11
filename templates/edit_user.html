@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit User</h2>
+
+<form method="POST" class="card p-4">
+
+<label>Username</label>
+<input class="form-control" name="username" value="{{ user.username }}" required>
+
+<br>
+
+<label>New Password (Leave blank to keep old)</label>
+<input class="form-control" name="password">
+
+<br>
+
+<label>Role</label>
+<select class="form-control" name="role">
+
+<option value="sales" {% if user.role=="sales" %}selected{% endif %}>Sales</option>
+
+<option value="production" {% if user.role=="production" %}selected{% endif %}>Production</option>
+
+</select>
+
+<br>
+
+<button class="btn btn-success">Update User</button>
+
+</form>
+
+{% endblock %}

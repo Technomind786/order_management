@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>OMS Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* PARTICLES BACKGROUND */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #0d6efd, #6ea8fe, #4dabf7, #339af0);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
+    z-index: -1;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* CENTER BOX */
+.center-box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* LOGIN CARD */
+.login-card {
+    width: 380px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(12px);
+    background-color: rgba(255,255,255,0.95);
+    animation: cardEntry 1s ease;
+}
+
+@keyframes cardEntry {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
+}
+
+/* LOGO FLOAT */
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
+    animation: floatLogo 3s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0px); }
+}
+
+.logo-text {
+    font-weight: bold;
+    color: #0d6efd;
+    font-size: 22px;
+}
+
+/* INPUT ANIMATION */
+.form-control {
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 8px rgba(13,110,253,0.4);
+    transform: scale(1.02);
+}
+
+/* BUTTON ANIMATION */
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-primary:active {
+    transform: scale(0.97);
+}
+
+.loading-spinner {
+    display: none;
+}
+
+/* ⭐ PREMIUM WATERMARK */
+.watermark {
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 13px;
+    opacity: 0;
+    animation: fadeIn 3s ease forwards, floatWM 5s ease-in-out infinite;
+    text-shadow: 0 0 6px rgba(255,255,255,0.6),
+                 0 0 12px rgba(255,255,255,0.5),
+                 0 0 18px rgba(13,110,253,0.7);
+}
+
+.watermark a {
+    color: white;
+    text-decoration: none;
+}
+
+.watermark a:hover {
+    text-decoration: underline;
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 0.75; }
+}
+
+/* Floating Animation */
+@keyframes floatWM {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Cursor blink */
+.cursor {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div class="center-box">
+
+<div class="card login-card p-4">
+
+<div class="text-center mb-4">
+
+<img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+
+<div class="logo-text">
+<span id="typingText"></span>
+<span class="cursor">|</span>
+</div>
+
+<small class="text-muted">Login to Continue</small>
+
+</div>
+
+<form method="POST" onsubmit="showLoading()">
+
+<div class="mb-3">
+<label class="form-label">Username</label>
+<input type="text" name="username" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Password</label>
+
+<div class="input-group">
+<input type="password" id="password" name="password" class="form-control" required>
+<button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+</div>
+
+</div>
+
+<button id="loginBtn" class="btn btn-primary w-100">
+<span id="btnText">Login</span>
+<span class="spinner-border spinner-border-sm loading-spinner" id="spinner"></span>
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- ⭐ WATERMARK -->
+<div class="watermark">
+<b>Ameroids Tech Studio</b><br>
+For more query contact
+<a href="tel:+917723868522">+91 7723868522</a>
+</div>
+
+<!-- PARTICLES -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 60 },
+    color: { value: "#ffffff" },
+    shape: { type: "circle" },
+    opacity: { value: 0.3 },
+    size: { value: 3 },
+    move: { enable: true, speed: 1.5 }
+  }
+});
+
+function togglePassword() {
+    let pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+
+function showLoading(){
+    document.getElementById("btnText").innerText = "Logging In...";
+    document.getElementById("spinner").style.display = "inline-block";
+}
+
+const text = "Order Management System";
+let index = 0;
+
+function typeEffect() {
+    if (index < text.length) {
+        document.getElementById("typingText").innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeEffect, 70);
+    }
+}
+
+typeEffect();
+
+</script>
+
+</body>
+</html>

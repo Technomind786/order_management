@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ translations["dashboard"][lang] }}</h2>
+
+<!-- EXPORT BUTTON -->
+<a href="/export_orders" class="btn btn-success mb-3">
+📊 Download Excel Report
+</a>
+
+<!-- STATS CARDS -->
+<div class="row mb-4">
+
+<div class="col-md-3">
+<a href="/production" style="text-decoration:none;">
+<div class="card text-center p-3 bg-primary text-white">
+<h4>{{ total_orders }}</h4>
+{{ translations["total_orders"][lang] }}
+</div>
+</a>
+</div>
+
+<div class="col-md-3">
+<a href="/production?filter=pending" style="text-decoration:none;">
+<div class="card text-center p-3 bg-warning text-dark">
+<h4>{{ pending_orders }}</h4>
+{{ translations["pending_orders"][lang] }}
+</div>
+</a>
+</div>
+
+<div class="col-md-3">
+<a href="/production?filter=completed" style="text-decoration:none;">
+<div class="card text-center p-3 bg-success text-white">
+<h4>{{ completed_orders }}</h4>
+{{ translations["completed_orders"][lang] }}
+</div>
+</a>
+</div>
+
+<div class="col-md-3">
+<a href="/production?filter=urgent" style="text-decoration:none;">
+<div class="card text-center p-3 bg-danger text-white">
+<h4>{{ urgent_orders }}</h4>
+{{ translations["urgent_orders"][lang] }}
+</div>
+</a>
+</div>
+
+</div>
+
+
+<!-- SEARCH BOX -->
+<form method="GET" class="mb-3">
+<input type="text"
+name="search"
+placeholder="{{ translations['search_placeholder'][lang] }}"
+class="form-control">
+</form>
+
+
+<!-- FILTER BUTTONS -->
+<div class="mb-3">
+
+<a href="/production" class="btn btn-outline-primary btn-sm">
+All
+</a>
+
+<a href="/production?filter=pending" class="btn btn-outline-warning btn-sm">
+{{ translations["pending_orders"][lang] }}
+</a>
+
+<a href="/production?filter=completed" class="btn btn-outline-success btn-sm">
+{{ translations["completed_orders"][lang] }}
+</a>
+
+</div>
+
+
+<!-- ORDER CARDS -->
+<div class="row">
+
+{% for data in orders %}
+
+<div class="col-md-4">
+
+<div class="card p-3 mb-3 order-card"
+
+style="
+{% if data.color == 'red' %}
+background-color:#ffd6d6;
+{% elif data.color == 'yellow' %}
+background-color:#fff3cd;
+{% elif data.color == 'green' %}
+background-color:#d4edda;
+{% endif %}
+">
+
+<h5 class="fw-bold">{{ data.order.order_number }}</h5>
+
+<b>{{ translations["customer_name"][lang] }}:</b> {{ data.order.customer_name }} <br>
+<b>{{ translations["dispatch_date"][lang] }}:</b> {{ data.order.dispatch_date }} <br>
+<b>Sales Person:</b> {{ data.order.sales_person }} <br>
+
+<b>{{ translations["status"][lang] }}:</b>
+
+{% if data.order.status == "Completed" %}
+<span class="badge bg-success">Completed</span>
+{% else %}
+<span class="badge bg-warning text-dark">Pending</span>
+{% endif %}
+
+{% if data.order.completed_by %}
+<br>
+<b>Completed By:</b> {{ data.order.completed_by }}
+<br>
+<b>Completed Time:</b> {{ data.order.completed_time }}
+{% endif %}
+
+<br><br>
+
+<!-- BUTTONS -->
+<div class="d-flex gap-2">
+
+<button class="btn btn-primary btn-sm"
+onclick="toggleDetails('{{ data.order.id }}')">
+{{ translations["view_details"][lang] }}
+</button>
+
+{% if data.order.status != "Completed" %}
+
+<a href="/complete_order/{{ data.order.id }}"
+class="btn btn-dark btn-sm">
+{{ translations["mark_completed"][lang] }}
+</a>
+
+{% else %}
+
+<a href="/revoke_order/{{ data.order.id }}"
+class="btn btn-danger btn-sm">
+{{ translations["revoke_completion"][lang] }}
+</a>
+
+{% endif %}
+
+</div>
+
+
+<!-- HIDDEN DETAILS PANEL -->
+<div id="details_{{ data.order.id }}" style="display:none; margin-top:10px;">
+
+<hr>
+
+<b>{{ translations["products"][lang] }}:</b>
+
+<ul>
+{% for item in data.products %}
+<li>
+{{ item.product_name }}
+({{ item.product_code }})
+- Qty: {{ item.quantity }}
+</li>
+{% endfor %}
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<script>
+function toggleDetails(id){
+
+    let box = document.getElementById("details_" + id);
+
+    if(box.style.display === "none"){
+        box.style.display = "block";
+    } else {
+        box.style.display = "none";
+    }
+
+}
+</script>
+
+{% endblock %}
