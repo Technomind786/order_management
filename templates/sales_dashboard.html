@@ -21,7 +21,7 @@
 {% for order in orders %}
 <tr>
 <td>{{ order.order_number }}</td>
-<td>{{ order.customer_name }}</td>
+<td>{{ transliterate_text(order.customer_name) }}</td>
 <td>{{ order.dispatch_date }}</td>
 <td>{{ order.status }}</td>
 <td>

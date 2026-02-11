@@ -58,7 +58,7 @@ background-color:#d4edda;
 
 <h5 class="fw-bold">{{ data.order.order_number }}</h5>
 
-<b>{{ translations["customer_name"][lang] }}:</b> {{ data.order.customer_name }} <br>
+<b>{{ translations["customer_name"][lang] }}:</b> {{ transliterate_text(data.order.customer_name) }} <br>
 <b>{{ translations["dispatch_date"][lang] }}:</b> {{ data.order.dispatch_date }} <br>
 <b>Sales Person:</b> {{ data.order.sales_person }} <br>
 
@@ -84,7 +84,7 @@ background-color:#d4edda;
 <ul>
 {% for item in data.products %}
 <li>
-{{ item.product_name }}
+{{ transliterate_text(item.product_name) }}
 ({{ item.product_code }})
 - Qty: {{ item.quantity }}
 </li>

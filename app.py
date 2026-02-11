@@ -1,3 +1,4 @@
+from indic_transliteration.sanscript import transliterate, ITRANS, DEVANAGARI
 import pandas as pd
 import io
 from datetime import datetime, timedelta
@@ -46,6 +47,18 @@ translations = {
     "revoke_completion": {"en": "Revoke Completion", "hi": "पूर्णता हटाएं"},
 
 }
+
+def transliterate_text(text):
+    lang = session.get("lang", "en")
+
+    if lang == "hi" and text:
+        try:
+            return transliterate(text, ITRANS, DEVANAGARI)
+        except:
+            return text
+
+    return text
+
 
 
 # ---------------- AUTO DELETE OLD COMPLETED ORDERS ----------------
