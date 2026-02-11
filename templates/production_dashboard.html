@@ -77,15 +77,24 @@ background-color:#d4edda;
 <b>Completed Time:</b> {{ data.order.completed_time }}
 {% endif %}
 
-<br><br>
+<hr>
+
+<b>{{ translations["products"][lang] }}:</b>
+
+<ul>
+{% for item in data.products %}
+<li>
+{{ item.product_name }}
+({{ item.product_code }})
+- Qty: {{ item.quantity }}
+</li>
+{% endfor %}
+</ul>
+
+<br>
 
 <!-- BUTTONS -->
 <div class="d-flex gap-2">
-
-<button class="btn btn-primary btn-sm"
-onclick="toggleDetails('{{ data.order.id }}')">
-{{ translations["view_details"][lang] }}
-</button>
 
 {% if data.order.status != "Completed" %}
 
@@ -105,26 +114,6 @@ class="btn btn-danger btn-sm">
 
 </div>
 
-
-<!-- HIDDEN DETAILS PANEL -->
-<div id="details_{{ data.order.id }}" style="display:none; margin-top:10px;">
-
-<hr>
-
-<b>{{ translations["products"][lang] }}:</b>
-
-<ul>
-{% for item in data.products %}
-<li>
-{{ item.product_name }}
-({{ item.product_code }})
-- Qty: {{ item.quantity }}
-</li>
-{% endfor %}
-</ul>
-
-</div>
-
 </div>
 
 </div>
@@ -132,20 +121,5 @@ class="btn btn-danger btn-sm">
 {% endfor %}
 
 </div>
-
-
-<script>
-function toggleDetails(id){
-
-    let box = document.getElementById("details_" + id);
-
-    if(box.style.display === "none"){
-        box.style.display = "block";
-    } else {
-        box.style.display = "none";
-    }
-
-}
-</script>
 
 {% endblock %}
